@@ -1,6 +1,7 @@
 import React from 'react';
 import shuffle from 'lodash.shuffle';
 import { Card } from '../Card/Card';
+
 import './style.css';
 
 import fb from '../../assets/firebase.png';
@@ -32,46 +33,41 @@ const data: Card[] = [
 export const Cards = () => {
   const [cards, setCards] = React.useState(shuffle(data.concat(data)));
   const [pair, setPair] = React.useState<Card[]>([]);
-  console.log('pair length: ', pair.length);
 
-  const handleSelectCard = (ind: number) => {
-    if (pair.length > 1) {
-      setPair([]);
-      setCards((cards) =>
-        cards.map((card) => {
-          return { ...card, selected: false };
-        })
-      );
-    }
-    setPair((prev) => [...prev, cards[ind]]);
+  const addCardToPair = (card: Card) => setPair((prev) => [...prev, card]);
+  const clearPair = () => setPair([]);
+  const selectCard = (ind: number) =>
     setCards((cards) =>
-      cards.map((card, index) => {
-        if (ind === index) {
-          return { ...card, selected: true };
-        }
-
-        return card;
-      })
+      cards.map((card, i) => (ind === i ? { ...card, selected: true } : card))
     );
+  const deselect = () =>
+    setCards((cards) => cards.map((card) => ({ ...card, selected: false })));
+  const doneCard = (url: string) =>
+    setCards((cards) =>
+      cards.map((card) => (card.url === url ? { ...card, done: true } : card))
+    );
+
+  const handleClick = (ind: number) => {
+    if (pair.length > 1) {
+      clearPair();
+      deselect();
+    }
+    addCardToPair(cards[ind]);
+    selectCard(ind);
   };
 
   React.useEffect(() => {
-    if (pair.length > 1) {
-      const [card1, card2] = pair;
-      if (card1.url === card2.url) {
-        setPair([]);
-        setCards((cards) =>
-          cards.map((card) => {
-            if (card.url === card1.url) {
-              return { ...card, done: true };
-            }
-
-            return card;
-          })
-        );
-      }
+    if (pair.length < 2) {
+      return;
     }
-  }, [pair, setPair, setCards]);
+
+    const [card1, card2] = pair;
+
+    if (card1.url === card2.url) {
+      clearPair();
+      doneCard(card1.url);
+    }
+  }, [pair.length]);
 
   return (
     <div className='cards'>
@@ -81,7 +77,7 @@ export const Cards = () => {
           url={url}
           selected={selected}
           done={done}
-          onSelect={handleSelectCard}
+          onClick={handleClick}
           index={ind}
         />
       ))}

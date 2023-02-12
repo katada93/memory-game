@@ -1,9 +1,12 @@
 import React from 'react';
 import { Cards } from '../Cards/Cards';
 import { Moves } from '../Moves/Moves';
+
 import './style.css';
 
 export const App = () => {
+  const [remainingMoves, setRemainingMoves] = React.useState(40);
+
   return (
     <div className='App'>
       <div className='container'>

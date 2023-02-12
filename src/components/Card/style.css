@@ -29,7 +29,11 @@
   display: none;
 }
 
+.card.selected,
 .card.done {
   pointer-events: none;
+}
+
+.card.done {
   visibility: hidden;
 }
