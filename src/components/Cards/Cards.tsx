@@ -30,7 +30,11 @@ const data: Card[] = [
   { url: wbs, selected: false, done: false },
 ];
 
-export const Cards = () => {
+interface Props {
+  onMove: () => void;
+}
+
+export const Cards = ({ onMove }: Props) => {
   const [cards, setCards] = React.useState(shuffle(data.concat(data)));
   const [pair, setPair] = React.useState<Card[]>([]);
 
@@ -61,6 +65,7 @@ export const Cards = () => {
       return;
     }
 
+    onMove();
     const [card1, card2] = pair;
 
     if (card1.url === card2.url) {
