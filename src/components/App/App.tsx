@@ -9,9 +9,9 @@ export const App = () => {
       <div className='container'>
         <h1 className='title'>Memory</h1>
         <div className='game_desk'>
-          <Moves title='сделано ходов' count={28} />
+          <Moves title='сделано ходов' count={0} />
           <Cards />
-          <Moves title='осталось попыток' count={12} />
+          <Moves title='осталось попыток' count={40} />
         </div>
       </div>
     </div>

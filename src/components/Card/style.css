@@ -28,3 +28,8 @@
 .card.selected::after {
   display: none;
 }
+
+.card.done {
+  pointer-events: none;
+  visibility: hidden;
+}
