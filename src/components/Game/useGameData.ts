@@ -2,8 +2,6 @@ import React from 'react';
 import shuffle from 'lodash.shuffle';
 import { Card } from './Game';
 
-const TOTAL_MOVES = 40;
-
 import fb from '../../assets/firebase.png';
 import nginx from '../../assets/nginx.png';
 import nodejs from '../../assets/nodejs.png';
@@ -24,11 +22,37 @@ const data: Card[] = [
   { url: wbs, selected: false, done: false },
 ];
 
+const TOTAL_MOVES = 40;
+
 export const useGameData = () => {
-  const [cards, setCards] = React.useState(shuffle(data.concat(data)));
-  const [madeMoves, setMadeMoves] = React.useState(0);
+  const [cards, setCards] = React.useState<Card[]>(shuffle(data.concat(data)));
+  const [madeMoves, setMadeMoves] = React.useState<number>(0);
 
   const increment = () => setMadeMoves(madeMoves + 1);
+  const selectCard = (currentCardIndex: number) =>
+    setCards((cards) =>
+      cards.map((card, ind) =>
+        currentCardIndex === ind ? { ...card, selected: true } : card
+      )
+    );
+  const deselectCard = () =>
+    setCards((cards) => cards.map((card) => ({ ...card, selected: false })));
+  const doneCard = (cardUrl: string) => {
+    setCards((cards) =>
+      cards.map((card) =>
+        cardUrl === card.url ? { ...card, done: true, selected: false } : card
+      )
+    );
+  };
 
-  return { cards, setCards, totalMoves: TOTAL_MOVES, madeMoves, increment };
+  return {
+    cards,
+    setCards,
+    totalMoves: TOTAL_MOVES,
+    madeMoves,
+    increment,
+    selectCard,
+    deselectCard,
+    doneCard,
+  };
 };

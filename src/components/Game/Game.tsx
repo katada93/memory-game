@@ -4,6 +4,7 @@ import { Card } from '../Card/Card';
 import { useGameData } from './useGameData';
 
 import './style.css';
+import { Modal } from '../Modal/Modal';
 
 export interface Card {
   url: string;
@@ -12,31 +13,29 @@ export interface Card {
 }
 
 export const Game = () => {
-  const { cards, setCards, totalMoves, madeMoves, increment } = useGameData();
-  const [pair, setPair] = React.useState<Card[]>([]);
+  const {
+    cards,
+    totalMoves,
+    madeMoves,
+    increment,
+    selectCard,
+    deselectCard,
+    doneCard,
+  } = useGameData();
+  const [pair, setPair] = React.useState<string[]>([]);
+  const isGameOver =
+    totalMoves === madeMoves || cards.every((card) => card.done);
 
-  const addCardToPair = (card: Card) => setPair((prev) => [...prev, card]);
+  const addCardToPair = (cardUrl: string) =>
+    setPair((prev) => [...prev, cardUrl]);
   const clearPair = () => setPair([]);
-  const selectCard = (ind: number) =>
-    setCards((cards) =>
-      cards.map((card, i) => (ind === i ? { ...card, selected: true } : card))
-    );
-  const deselectCard = () =>
-    setCards((cards) => cards.map((card) => ({ ...card, selected: false })));
-  const doneCard = (url: string) =>
-    setCards((cards) =>
-      cards.map((card) =>
-        card.url === url ? { ...card, done: true, selected: false } : card
-      )
-    );
-
-  const handleClick = (ind: number) => {
+  const handleClick = (currentCardIndex: number) => {
     if (pair.length > 1) {
       clearPair();
       deselectCard();
     }
-    addCardToPair(cards[ind]);
-    selectCard(ind);
+    addCardToPair(cards[currentCardIndex].url);
+    selectCard(currentCardIndex);
   };
 
   React.useEffect(() => {
@@ -44,11 +43,11 @@ export const Game = () => {
       return;
     }
 
-    const [card1, card2] = pair;
+    const [cardIndex1, cardIndex2] = pair;
 
-    if (card1.url === card2.url) {
+    if (cardIndex1 === cardIndex2) {
       clearPair();
-      doneCard(card1.url);
+      doneCard(cardIndex1);
     }
 
     increment();
@@ -70,6 +69,11 @@ export const Game = () => {
         ))}
       </div>
       <Moves title='осталось попыток' count={totalMoves - madeMoves} />
+      <Modal
+        isOpen={isGameOver}
+        onClick={() => window.location.reload()}
+        text='Увы, вы прогирали у вас кончились ходы'
+      />
     </div>
   );
 };
