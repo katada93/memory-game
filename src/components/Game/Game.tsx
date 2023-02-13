@@ -23,8 +23,8 @@ export const Game = () => {
     doneCard,
   } = useGameData();
   const [pair, setPair] = React.useState<string[]>([]);
-  const isGameOver =
-    totalMoves === madeMoves || cards.every((card) => card.done);
+  const isGameOver = totalMoves === madeMoves;
+  const isGameWon = cards.every((card) => card.done);
 
   const addCardToPair = (cardUrl: string) =>
     setPair((prev) => [...prev, cardUrl]);
@@ -70,10 +70,13 @@ export const Game = () => {
       </div>
       <Moves title='осталось попыток' count={totalMoves - madeMoves} />
       <Modal
-        isOpen={isGameOver}
+        isOpen={isGameOver || isGameWon}
         onClick={() => window.location.reload()}
-        text='Увы, вы прогирали у вас кончились ходы'
-      />
+      >
+        {isGameOver
+          ? 'Увы, вы прогирали у вас кончились ходы'
+          : `Ура, ВЫ выиграли! это заняло ${madeMoves} ходов`}
+      </Modal>
     </div>
   );
 };

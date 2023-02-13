@@ -5,10 +5,10 @@ import './style.css';
 interface Props {
   isOpen: boolean;
   onClick: () => void;
-  text: string;
+  children: React.ReactNode;
 }
 
-export const Modal = ({ isOpen, onClick, text }: Props) => {
+export const Modal = ({ isOpen, onClick, children }: Props) => {
   if (!isOpen) {
     return null;
   }
@@ -16,7 +16,7 @@ export const Modal = ({ isOpen, onClick, text }: Props) => {
   return (
     <div className='Modal' onClick={onClick}>
       <div className='Modal__body'>
-        <h3 className='Modal__text'>{text}</h3>
+        <h3 className='Modal__text'>{children}</h3>
         <button className='Modal__button'>Cыграть еще</button>
       </div>
     </div>
