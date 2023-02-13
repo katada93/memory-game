@@ -12,7 +12,7 @@ export interface Card {
   done: boolean;
 }
 
-export const Game = () => {
+export const GameDesk = () => {
   const {
     cards,
     totalMoves,
@@ -73,9 +73,9 @@ export const Game = () => {
         isOpen={isGameOver || isGameWon}
         onClick={() => window.location.reload()}
       >
-        {isGameOver
-          ? 'Увы, вы прогирали у вас кончились ходы'
-          : `Ура, ВЫ выиграли! это заняло ${madeMoves} ходов`}
+        {isGameWon
+          ? `Ура, Вы выиграли! это заняло ${madeMoves} ходов`
+          : 'Увы, вы прогирали у вас кончились ходы'}
       </Modal>
     </div>
   );

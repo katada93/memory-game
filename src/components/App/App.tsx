@@ -1,5 +1,5 @@
 import React from 'react';
-import { Game } from '../Game/Game';
+import { GameDesk } from '../GameDesk/GameDesk';
 
 import './style.css';
 
@@ -8,7 +8,7 @@ export const App = () => {
     <div className='App'>
       <div className='container'>
         <h1 className='title'>Memory</h1>
-        <Game />
+        <GameDesk />
       </div>
     </div>
   );

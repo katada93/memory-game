@@ -1,6 +1,6 @@
 import React from 'react';
 import shuffle from 'lodash.shuffle';
-import { Card } from './Game';
+import { Card } from './GameDesk';
 
 import fb from '../../assets/firebase.png';
 import nginx from '../../assets/nginx.png';
@@ -22,7 +22,7 @@ const data: Card[] = [
   { url: wbs, selected: false, done: false },
 ];
 
-const TOTAL_MOVES = 40;
+const TOTAL_MOVES = 15;
 
 export const useGameData = () => {
   const [cards, setCards] = React.useState<Card[]>(shuffle(data.concat(data)));
