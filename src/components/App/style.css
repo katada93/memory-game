@@ -30,8 +30,3 @@ body {
   max-width: 965px;
   margin: 0 auto;
 }
-
-.desk {
-  display: flex;
-  justify-content: space-between;
-}

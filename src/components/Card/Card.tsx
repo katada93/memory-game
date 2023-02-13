@@ -13,6 +13,7 @@ interface Props {
 
 export const Card = ({ url, selected, done, onClick, index }: Props) => {
   const classes = clsx('card', { selected, done });
+
   return (
     <div onClick={() => onClick(index)} className={classes}>
       {selected && <img src={url} alt='Card' />}
