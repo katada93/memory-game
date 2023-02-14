@@ -31,8 +31,8 @@ export const useGameData = () => {
   const increment = () => setMadeMoves(madeMoves + 1);
   const selectCard = (currentCardIndex: number) =>
     setCards((cards) =>
-      cards.map((card, ind) =>
-        currentCardIndex === ind ? { ...card, selected: true } : card
+      cards.map((card, index) =>
+        currentCardIndex === index ? { ...card, selected: true } : card
       )
     );
   const deselectCard = () =>
@@ -50,9 +50,11 @@ export const useGameData = () => {
     setCards,
     totalMoves: TOTAL_MOVES,
     madeMoves,
-    increment,
-    selectCard,
-    deselectCard,
-    doneCard,
+    actions: {
+      increment,
+      selectCard,
+      deselectCard,
+      doneCard,
+    }
   };
 };

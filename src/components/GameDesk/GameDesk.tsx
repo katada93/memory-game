@@ -2,9 +2,9 @@ import React from 'react';
 import { Moves } from '../Moves/Moves';
 import { Card } from '../Card/Card';
 import { useGameData } from './useGameData';
+import { Modal } from '../Modal/Modal';
 
 import './style.css';
-import { Modal } from '../Modal/Modal';
 
 export interface Card {
   url: string;
@@ -17,10 +17,7 @@ export const GameDesk = () => {
     cards,
     totalMoves,
     madeMoves,
-    increment,
-    selectCard,
-    deselectCard,
-    doneCard,
+    actions,
   } = useGameData();
   const [pair, setPair] = React.useState<string[]>([]);
   const isGameOver = totalMoves === madeMoves;
@@ -32,10 +29,10 @@ export const GameDesk = () => {
   const handleClick = (currentCardIndex: number) => {
     if (pair.length > 1) {
       clearPair();
-      deselectCard();
+      actions.deselectCard();
     }
     addCardToPair(cards[currentCardIndex].url);
-    selectCard(currentCardIndex);
+    actions.selectCard(currentCardIndex);
   };
 
   React.useEffect(() => {
@@ -43,28 +40,28 @@ export const GameDesk = () => {
       return;
     }
 
-    const [cardIndex1, cardIndex2] = pair;
+    const [card1, card2] = pair;
 
-    if (cardIndex1 === cardIndex2) {
+    if (card1 === card2) {
       clearPair();
-      doneCard(cardIndex1);
+      actions.doneCard(card1);
     }
 
-    increment();
+    actions.increment();
   }, [pair.length]);
 
   return (
     <div className='desk'>
       <Moves title='сделано ходов' count={madeMoves} />
       <div className='cards'>
-        {cards.map(({ url, selected, done }, ind) => (
+        {cards.map(({ url, selected, done }, index) => (
           <Card
-            key={ind}
+            key={index}
             url={url}
             selected={selected}
             done={done}
             onClick={handleClick}
-            index={ind}
+            index={index}
           />
         ))}
       </div>
