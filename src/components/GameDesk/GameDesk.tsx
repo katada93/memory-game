@@ -29,10 +29,10 @@ export const GameDesk = () => {
   const handleClick = (currentCardIndex: number) => {
     if (pair.length > 1) {
       clearPair();
-      actions.deselectCard();
+      actions.onDeselectCard();
     }
     addCardToPair(cards[currentCardIndex].url);
-    actions.selectCard(currentCardIndex);
+    actions.onSelectCard(currentCardIndex);
   };
 
   React.useEffect(() => {
@@ -44,7 +44,7 @@ export const GameDesk = () => {
 
     if (card1 === card2) {
       clearPair();
-      actions.doneCard(card1);
+      actions.onDoneCard(card1);
     }
 
     actions.increment();

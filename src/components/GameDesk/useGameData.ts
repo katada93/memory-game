@@ -22,22 +22,22 @@ const data: Card[] = [
   { url: wbs, selected: false, done: false },
 ];
 
-const TOTAL_MOVES = 15;
+const TOTAL_MOVES = 40;
 
 export const useGameData = () => {
   const [cards, setCards] = React.useState<Card[]>(shuffle(data.concat(data)));
   const [madeMoves, setMadeMoves] = React.useState<number>(0);
 
   const increment = () => setMadeMoves(madeMoves + 1);
-  const selectCard = (currentCardIndex: number) =>
+  const onSelectCard = (currentCardIndex: number) =>
     setCards((cards) =>
       cards.map((card, index) =>
         currentCardIndex === index ? { ...card, selected: true } : card
       )
     );
-  const deselectCard = () =>
+  const onDeselectCard = () =>
     setCards((cards) => cards.map((card) => ({ ...card, selected: false })));
-  const doneCard = (cardUrl: string) => {
+  const onDoneCard = (cardUrl: string) => {
     setCards((cards) =>
       cards.map((card) =>
         cardUrl === card.url ? { ...card, done: true, selected: false } : card
@@ -52,9 +52,9 @@ export const useGameData = () => {
     madeMoves,
     actions: {
       increment,
-      selectCard,
-      deselectCard,
-      doneCard,
+      onSelectCard,
+      onDeselectCard,
+      onDoneCard,
     }
   };
 };
